@@ -1,6 +1,8 @@
 import os
 
-WEBUI_MODELS = os.getenv("WEBUI_MODELS")
+# Modify according to path to webui
+WEBUI_MODELS = "C:\\Users\\shawn\\Desktop\\krux\\sd.webui\\webui\\models\\"
+
 
 def valid_extension(filename):
     return filename.endswith(".safetensors") or filename.endswith(".pt")  or filename.endswith(".pth") or filename.endswith(".ckpt")

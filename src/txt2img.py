@@ -8,7 +8,7 @@ import latent_noise
 from stable_diffusion_pipeline_custom_call import StableDiffusionPipeline__call__WithCustomDenoising
 
 def txt2img(
-    checkpoint = "juggernaut_final", 
+    checkpoint = "v1-5-pruned-emaonly", 
     width = 512,
     height = 512,
     batch_size = 1,

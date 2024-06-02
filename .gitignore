@@ -2,3 +2,7 @@
 .diffusers
 __pycache__
 output
+params.json
+stories/*
+!stories/.gitkeep
+illustrator.csv
