@@ -1,4 +1,5 @@
 from diffusers import StableDiffusionPipeline, PNDMScheduler, UniPCMultistepScheduler, DDIMScheduler, EulerAncestralDiscreteScheduler, EulerDiscreteScheduler, HeunDiscreteScheduler, LMSDiscreteScheduler
+import random
 import kdiffusion
 import prompts
 import shared
@@ -8,7 +9,7 @@ import latent_noise
 from stable_diffusion_pipeline_custom_call import StableDiffusionPipeline__call__WithCustomDenoising
 
 def txt2img(
-    checkpoint = "v1-5-pruned-emaonly", 
+    checkpoint = "v1-5-pruned", 
     width = 512,
     height = 512,
     batch_size = 1,
@@ -118,6 +119,9 @@ def txt2img(
     pipe.enable_vae_slicing()
 
     default_scheduler = pipe.scheduler
+
+    if seed == -1:
+        seed = random.randint(0, 999999999)
 
     if sampler_name == "PLMS":
         pipe.scheduler.config.skip_prk_steps = True # https://github.com/huggingface/diffusers/issues/960

@@ -29,7 +29,6 @@ samplers = [
 ]
 '''
 
-
 def run_generation(params):
         # Generate image
         model_name = params["sd_checkpoint"]
@@ -40,6 +39,7 @@ def run_generation(params):
         width = params["width"]
         height = params["height"]
         sampling_method = params["sampling_method"]
+        seed = params["seed"]
 
         image = txt2img(
             checkpoint=model_name,
@@ -50,6 +50,7 @@ def run_generation(params):
             height=height,
             cfg_scale=cfg_scale,
             sampler_name=sampling_method,
+            seed=seed,
             randn_source="gpu"
         )
 
@@ -76,11 +77,18 @@ def save_image(image, story_name, page_name):
 def generate_story_images(params, story_name, story_path):
     f = open(story_path, "r")
     l = f.read()
+    l = re.sub("'", '"', l)
     parsed_lines = re.findall(r'"(.*?)"', l)
     story_name = story_name.replace("_prompt", "")
+    LORA_NAME = "<lora:COOLKIDS_MERGE_V2.5:1>"
+    fixed_prompt = "3 years old, (solo:1.5), black_hair"
 
     for i in range(len(parsed_lines)):
+        image_path = os.path.join(cwd, "stories", story_name, f"@P{i + 1}.png")
+        if os.path.exists(image_path):
+            continue
         prompt = parsed_lines[i]
+        prompt += " " + fixed_prompt # + LORA_NAME
         params["prompt"] = prompt
         params["page_name"] = f"@P{i + 1}"
         params["story_name"] = story_name 
@@ -90,14 +98,6 @@ def generate_story_images(params, story_name, story_path):
         
         result = run_generation(params)
         save_image(result, params["story_name"], params["page_name"])
-
-
-def is_generated(story_path):
-    cwd = os.getcwd()
-    for f in os.listdir(os.path.join(cwd, story_path)):
-        if f.endswith(".png"):
-            return True
-    return False
 
 
 def run(dir):
@@ -111,8 +111,6 @@ def run(dir):
     for story in stories:
         story_path = os.path.join(dir, story)
         if os.path.isdir(story_path):
-            if is_generated(story_path):
-                continue
             for f in os.listdir(story_path):
                 if f.endswith(".txt") and "_prompt" in f:
                     generate_story_images(params, os.path.splitext(f)[0], os.path.join(story_path, f))
@@ -120,7 +118,9 @@ def run(dir):
 
 if __name__ == "__main__":
     path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    path_to_stories = "C:\\Users\\shawn\Desktop\\krux\\stable-diffusion-cli\\stories"
+    path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
+    # path_to_downloads = "C:\\Users\\User\\Downloads"
+    # path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
     cwd = os.getcwd()
 
     # Move any prompts and stories in downloads folder to new folder
@@ -129,9 +129,12 @@ if __name__ == "__main__":
             path = os.path.join(path_to_downloads, f)
             base = f.split("_")[0]
             story_dir = os.path.join(path_to_stories, base)
-            if not os.path.exists(os.path.join(path_to_stories, base)):
+            if not os.path.exists(story_dir):
                os.makedirs(story_dir)
             os.replace(path, os.path.join(story_dir, f))
 
     story_dir = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
+    #story_dir = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
+
     run(story_dir)
+
