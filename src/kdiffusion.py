@@ -269,4 +269,3 @@ def kdiffusion_sampler(
             print(f"\t{key} = {val}")
     
     return sampler_func(**sampler_args)
-

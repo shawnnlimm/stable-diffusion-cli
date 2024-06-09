@@ -40,38 +40,48 @@ def run_generation(params):
         height = params["height"]
         sampling_method = params["sampling_method"]
         seed = params["seed"]
+        clip_skip = params["clip_skip"]
+        batch_size = params["batch_size"]
+        
+        images = []
 
-        image = txt2img(
-            checkpoint=model_name,
-            positive=prompt,
-            negative=negative_prompt,
-            steps=sampling_steps,
-            width=width,
-            height=height,
-            cfg_scale=cfg_scale,
-            sampler_name=sampling_method,
-            seed=seed,
-            randn_source="gpu"
-        )
+        for _ in range(batch_size):
+            images.append(txt2img(
+                checkpoint=model_name,
+                positive=prompt,
+                negative=negative_prompt,
+                steps=sampling_steps,
+                width=width,
+                height=height,
+                cfg_scale=cfg_scale,
+                sampler_name=sampling_method,
+                seed=seed,
+                randn_source="gpu",
+                CLIP_stop_at_last_layers=clip_skip
+            ))
 
-        return image
+        return images
 
 
-def save_image(image, story_name, page_name):
+def save_images(images, story_name, page_name):
     cwd = os.getcwd()
     Path(".\\output").mkdir(parents=True, exist_ok=True)
 
     # Save to output folder if not generating for stories
-    if not story_name: 
-        image_path = os.path.join(cwd, "output\\sample.png") 
-        image.save(image_path)
+    if not story_name:
+        for i in range(len(images)):
+            image = images[i]
+            image_path = os.path.join(cwd, f"output\\sample_{i}.png")
+            image.save(image_path)
 
     # Save to stories folder
     else:
-        image_path = os.path.join(cwd, f"stories\\{story_name}\\{page_name}.png")
-        # Save only if image has not been generated before
-        if not os.path.exists(image_path):
-            image.save(image_path)
+        for i in range(len(images)):
+            image = images[i]
+            image_path = os.path.join(cwd, f"stories\\{story_name}\\{page_name}_{i}.png")
+            # Save only if image has not been generated before
+            if not os.path.exists(image_path):
+                image.save(image_path)
 
 
 def generate_story_images(params, story_name, story_path):
@@ -96,8 +106,8 @@ def generate_story_images(params, story_name, story_path):
         with open("params.json", "w") as f:
             json.dump(params, f, indent=4)
         
-        result = run_generation(params)
-        save_image(result, params["story_name"], params["page_name"])
+        results = run_generation(params)
+        save_images(results, params["story_name"], params["page_name"])
 
 
 def run(dir):
@@ -107,7 +117,7 @@ def run(dir):
     stories = os.listdir(dir)
     if not stories:
         results = run_generation(params)
-        save_image(results, "", "")
+        save_images(results, "", "")
     for story in stories:
         story_path = os.path.join(dir, story)
         if os.path.isdir(story_path):

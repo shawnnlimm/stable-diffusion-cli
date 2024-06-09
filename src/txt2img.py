@@ -247,7 +247,6 @@ def txt2img(
             denoise = custom_denoise,
             num_inference_steps = steps,
             guidance_scale = cfg_scale,
-            num_images_per_prompt = batch_size,
             width = width,
             height = height,
             **prompts.create_a1111_conditioning(pipe, positive, negative, CLIP_stop_at_last_layers),
