@@ -21,7 +21,7 @@ def get_images_from_directory(directory):
                     if is_fully_downloaded(file_path):
                         images.append(file_path)
             if not images:
-                return
+                continue
             images.sort(key=lambda x: int(re.search(r'@P(\d+).png', x).group(1)))
             stories[story_name] = images
     return stories
@@ -34,8 +34,8 @@ st.set_page_config(page_title="Stable Diffusion", layout="wide", page_icon=":tad
 st_autorefresh(interval=5000, key="image_counter")
 
 # ---- Header Section ----
-st.subheader("Hi, this is a stable diffusion webui")
-st.title("SD 1.5")
+st.subheader("Orator Image Generation Engine")
+st.title("v0.9")
 
 # ---- Generate button ----
 if st.button("Generate"):
