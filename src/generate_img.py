@@ -78,7 +78,8 @@ def save_images(images, story_name, page_name):
     else:
         for i in range(len(images)):
             image = images[i]
-            image_path = os.path.join(cwd, f"stories\\{story_name}\\{page_name}_{i}.png")
+            # TODO: Update for batch size logic
+            image_path = os.path.join(cwd, f"stories\\{story_name}\\{page_name}.png")
             # Save only if image has not been generated before
             if not os.path.exists(image_path):
                 image.save(image_path)
@@ -127,10 +128,10 @@ def run(dir):
 
 
 if __name__ == "__main__":
-    path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
-    # path_to_downloads = "C:\\Users\\User\\Downloads"
-    # path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
+    # path_to_downloads = "C:\\Users\\shawn\\Downloads"
+    # path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
+    path_to_downloads = "C:\\Users\\User\\Downloads"
+    path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
     cwd = os.getcwd()
 
     # Move any prompts and stories in downloads folder to new folder
@@ -143,8 +144,7 @@ if __name__ == "__main__":
                os.makedirs(story_dir)
             os.replace(path, os.path.join(story_dir, f))
 
-    story_dir = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
-    #story_dir = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
-
+    # story_dir = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
+    story_dir = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
     run(story_dir)
 
