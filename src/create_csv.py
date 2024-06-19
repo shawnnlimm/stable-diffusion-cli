@@ -73,8 +73,8 @@ def reformat(text_file):
 
 
 if __name__ == "__main__":
-    path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
-    # path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
+    # path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
+    path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
     df = create_df(12)
     stories = os.listdir(path_to_stories)
     story_count = len(stories)
@@ -92,3 +92,4 @@ if __name__ == "__main__":
             insert_image_paths(df, story_dir, i)
             
     df.to_csv("illustrator.csv", index=False)
+
