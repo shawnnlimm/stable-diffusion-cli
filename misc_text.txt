@@ -1,0 +1,3 @@
+4: This story is specially created for {NAME}.
+4: {VALUE}
+5: FIXED TEXT

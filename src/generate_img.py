@@ -79,7 +79,7 @@ def save_images(images, story_name, page_name):
         for i in range(len(images)):
             image = images[i]
             # TODO: Update for batch size logic
-            image_path = os.path.join(cwd, f"stories\\{story_name}\\{page_name}.png")
+            image_path = os.path.join(cwd, f"..\\stories\\{story_name}\\{page_name}.png")
             # Save only if image has not been generated before
             if not os.path.exists(image_path):
                 image.save(image_path)
@@ -95,7 +95,7 @@ def generate_story_images(params, story_name, story_path):
     fixed_prompt = "3 years old, (solo:1.5), black_hair"
 
     for i in range(len(parsed_lines)):
-        image_path = os.path.join(cwd, "stories", story_name, f"@P{i + 1}.png")
+        image_path = os.path.join(cwd, "..\\stories", story_name, f"@P{i + 1}.png")
         if os.path.exists(image_path):
             continue
         prompt = parsed_lines[i]
@@ -112,7 +112,7 @@ def generate_story_images(params, story_name, story_path):
 
 
 def run(dir):
-    with open("params.json", "r") as f:
+    with open("..\\params.json", "r") as f:
         params = json.load(f)
     
     stories = os.listdir(dir)
@@ -128,10 +128,11 @@ def run(dir):
 
 
 if __name__ == "__main__":
-    # path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    # path_to_stories = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
-    path_to_downloads = "C:\\Users\\User\\Downloads"
-    path_to_stories = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+    path_to_downloads = "C:\\Users\\shawn\\Downloads"
+    # path_to_downloads = "C:\\Users\\User\\Downloads"
+    path_to_stories = "..\\stories"
     cwd = os.getcwd()
 
     # Move any prompts and stories in downloads folder to new folder
@@ -144,7 +145,5 @@ if __name__ == "__main__":
                os.makedirs(story_dir)
             os.replace(path, os.path.join(story_dir, f))
 
-    # story_dir = "C:\\Users\\shawn\\Desktop\\krux\\stable-diffusion-cli\\stories"
-    story_dir = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\stories"
-    run(story_dir)
+    run(path_to_stories)
 
