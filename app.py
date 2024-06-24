@@ -31,7 +31,7 @@ NUM_IMAGES = 12
 
 # ---- Page Config----
 st.set_page_config(page_title="Stable Diffusion", layout="wide", page_icon=":tada:")
-st_autorefresh(interval=5000, key="image_counter")
+st_autorefresh(interval=10000, key="image_counter")
 
 # ---- Header Section ----
 st.subheader("Orator Image Generation Engine")

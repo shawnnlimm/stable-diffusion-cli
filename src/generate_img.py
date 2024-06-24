@@ -130,8 +130,8 @@ def run(dir):
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    # path_to_downloads = "C:\\Users\\User\\Downloads"
+    # path_to_downloads = "C:\\Users\\shawn\\Downloads"
+    path_to_downloads = "C:\\Users\\User\\Downloads"
     path_to_stories = "..\\stories"
     cwd = os.getcwd()
 
