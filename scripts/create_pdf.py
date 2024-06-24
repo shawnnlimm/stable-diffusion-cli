@@ -307,12 +307,11 @@ def create_new_pdf(template_pdf_path, path_to_config):
                     align = 0 if page_num == 4 or page_num == 29 else 1
 
                     x0, y0, x1, y1 = center_x - textbox_width / 2, center_y - textbox_height / 2, center_x + textbox_width / 2, center_y + textbox_height / 2
-                    OFFSET = 0
+                    OFFSET = 20 if page_num == 29 or page_num == 33 else 0
                     rect = fitz.Rect(x0, y0 + OFFSET, x1, y1 + OFFSET)
 
 
-                    new_page_obj.insert_text(rect, text, fontsize, fontfile,
-                                             fontcolor, align)
+                    new_page_obj.insert_text(rect, text, fontsize, fontfile, fontcolor, align)
                     i += 1
 
     new_pdf.save_pdf(f"..\\pdf\\{data['story_name']}.pdf") 
