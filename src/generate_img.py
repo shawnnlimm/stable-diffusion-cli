@@ -85,12 +85,13 @@ def save_images(images, story_name, page_name):
                 image.save(image_path)
 
 
-def generate_story_images(params, story_name, story_path):
-    f = open(story_path, "r")
-    l = f.read()
-    l = re.sub("'", '"', l)
+def generate_story_images(params, story_name, story_data):
+    with open(story_data, "r") as f:
+        data = json.load(f)
+    
+    prompts = data["illustrationPrompts"]
+    l = re.sub("'", '"', prompts)
     parsed_lines = re.findall(r'"(.*?)"', l)
-    story_name = story_name.replace("_prompt", "")
     LORA_NAME = "<lora:COOLKIDS_MERGE_V2.5:1>"
     fixed_prompt = "3 years old, (solo:1.5), black_hair"
 
@@ -109,8 +110,7 @@ def generate_story_images(params, story_name, story_path):
         
         results = run_generation(params)
         save_images(results, params["story_name"], params["page_name"])
-
-
+   
 def run(dir):
     with open("..\\params.json", "r") as f:
         params = json.load(f)
@@ -123,27 +123,26 @@ def run(dir):
         story_path = os.path.join(dir, story)
         if os.path.isdir(story_path):
             for f in os.listdir(story_path):
-                if f.endswith(".txt") and "_prompt" in f:
+                if f.endswith(".json"):
                     generate_story_images(params, os.path.splitext(f)[0], os.path.join(story_path, f))
 
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    # path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    path_to_downloads = "C:\\Users\\User\\Downloads"
+    path_to_downloads = "C:\\Users\\shawn\\Downloads"
+    # path_to_downloads = "C:\\Users\\User\\Downloads"
     path_to_stories = "..\\stories"
     cwd = os.getcwd()
 
     # Move any prompts and stories in downloads folder to new folder
     for f in os.listdir(path_to_downloads):
-        if f.endswith(".txt") and ("_prompt" in f or "_story" in f):
+        if f.endswith(".json"):
             path = os.path.join(path_to_downloads, f)
-            base = f.split("_")[0]
+            base = f.split(".")[0]
             story_dir = os.path.join(path_to_stories, base)
             if not os.path.exists(story_dir):
                os.makedirs(story_dir)
             os.replace(path, os.path.join(story_dir, f))
 
     run(path_to_stories)
-

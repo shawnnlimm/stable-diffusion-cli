@@ -29,11 +29,11 @@
         "content": [
             {
                 "type": "text",
-                "data": "This story is specially created for {NAME}.\nIt teaches the concepts of"
+                "data": "This story is specially created for Jeremy.\nIt teaches the concepts of"
             },
             {
                 "type": "text",
-                "data": "{VALUE}"
+                "data": "Friendship"
             },
             {
                 "type": "image",
@@ -249,7 +249,7 @@
             },
             {
                 "type": "text",
-                "data": "Question 1: How do you think Jeremy felt when he couldn't find his teddy bear?\n\nQuestion 2: Where are all the places Jeremy looked for his teddy bear?\n\nQuestion 3: Why do you think Jeremy was so happy when he found his teddy bear?\n\nQuestion 4: What did Jeremy learn about finding lost things?"
+                "data": "Question 1: How do you think Jeremy felt when he couldn't find his teddy bear?\n\nQuestion 2: Why is it important to look carefully when we lose something?\n\nQuestion 3: How do you think Jeremy felt when he finally found his teddy bear?\n\nQuestion 4: What can you do to help someone who has lost something special to them?"
             }
         ]
     },
@@ -266,7 +266,7 @@
         "content": [
             {
                 "type": "text",
-                "data": "Join Jeremy on a magical search through a big, old castle as he looks for his beloved teddy bear! \"Jeremy's Castle Adventure\" is a delightful tale that teaches young children the joy of perseverance and the importance of looking carefully. With charming illustrations and a heartwarming ending, this story is perfect for sparking kids' imaginations and encouraging problem-solving. Enjoy the adventure with your little one today!"
+                "data": "Join Jeremy on an exciting quest through his big, old castle in search of his lost teddy bear. From peeking under beds to exploring the tallest tower, your little one will be captivated as Jeremy uncovers a valuable lesson about perseverance and careful searching. This heartwarming adventure is perfect for guiding 3-5 year olds through the emotions of losing and finding a cherished friend, wrapped in a simple yet enchanting tale."
             },
             {
                 "type": "image",
