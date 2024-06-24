@@ -5,4 +5,7 @@ output
 params.json
 stories/*
 !stories/.gitkeep
-illustrator.csv
+templates/*
+!templates/.gitkeep
+pdf/*
+!pdf/.gitkeep

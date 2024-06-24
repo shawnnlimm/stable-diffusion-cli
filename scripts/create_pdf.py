@@ -108,7 +108,9 @@ class Page:
         dummy_page = dummy_doc.new_page()
         dummy_page_obj = Page(dummy_page)
         INITIAL_HEIGHT = 10000
-        used_px = dummy_page_obj.insert_text(fitz.Rect(0, 0, specified_width, INITIAL_HEIGHT), text, fontsize, fontfile, (0, 0, 0))
+        used_px = dummy_page_obj.insert_text(fitz.Rect(0, 0, specified_width,
+                                                       INITIAL_HEIGHT), text,
+                                             fontsize, fontfile, (0, 0, 0), 1)
         rect_height = INITIAL_HEIGHT - used_px 
         dummy_doc.close()
 
@@ -152,7 +154,7 @@ class Page:
 
         return bbox_list
   
-    def insert_text(self, rect, text, fontsize, fontfile, color):
+    def insert_text(self, rect, text, fontsize, fontfile, color, align):
         """
         Insert text into specified rectangle, centered in the rectangle
 
@@ -163,7 +165,9 @@ class Page:
         """
         fontname = fontfile.split("\\")[-1].split(".")[0].replace(" ", "")
 
-        return self.page.insert_textbox(rect, text, fontsize=fontsize, fontname=fontname, fontfile=fontfile, color=color, align=1)
+        return self.page.insert_textbox(rect, text, fontsize=fontsize,
+                                        fontname=fontname, fontfile=fontfile,
+                                        color=color, align=align)
     
     def insert_img(self, rect, image_path):
         """
@@ -268,8 +272,6 @@ def create_new_pdf(template_pdf_path, path_to_config):
         data = json.load(f)
 
     for page_num in range(page_count):
-        print(f"PAGE_NUM: {page_num + 1}")
-
         ref_page = template_pdf.get_page(page_num)
         width = ref_page.rect.width
         height = ref_page.rect.height
@@ -302,15 +304,18 @@ def create_new_pdf(template_pdf_path, path_to_config):
                     center_x, center_y = ref_page_obj.get_center(bbox)
                     textbox_width =  bbox[2] - bbox[0]
                     textbox_height = ref_page_obj.get_text_height(text, fontfile, fontsize, textbox_width)
+                    align = 0 if page_num == 4 or page_num == 29 else 1
 
                     x0, y0, x1, y1 = center_x - textbox_width / 2, center_y - textbox_height / 2, center_x + textbox_width / 2, center_y + textbox_height / 2
-                    OFFSET = 30
+                    OFFSET = 0
                     rect = fitz.Rect(x0, y0 + OFFSET, x1, y1 + OFFSET)
 
-                    new_page_obj.insert_text(rect, text, fontsize, fontfile, fontcolor)
+
+                    new_page_obj.insert_text(rect, text, fontsize, fontfile,
+                                             fontcolor, align)
                     i += 1
 
-    new_pdf.save_pdf(f"..\\{data['story_name']}.pdf") 
+    new_pdf.save_pdf(f"..\\pdf\\{data['story_name']}.pdf") 
 
 """
 def extract_pdf_info(template_pdf_path):

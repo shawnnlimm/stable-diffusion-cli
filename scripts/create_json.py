@@ -64,7 +64,10 @@ if __name__ == "__main__":
         l = f.readlines()
         misc_text = defaultdict(list)
         for item in l:
-            misc_text[int(item[0])].append(item.split(":")[1].strip())
+            item = item.strip()
+            key = int(item[0])
+            value = item.split(":")[1].strip()
+            misc_text[key].append(value)
     
     for i in range(story_count):
         story = stories[i]
@@ -77,6 +80,7 @@ if __name__ == "__main__":
             for page in range(num_pages):
                 if page + 1 in misc_text:
                     for item in misc_text[page + 1]:
+                        item = item.replace("\\n", "\n")
                         data[str(page + 1)]["content"].append({"type": "text", "data": item})
 
                 if page == 0:
@@ -85,6 +89,9 @@ if __name__ == "__main__":
                     data[str(page + 1)]["content"].append({"type": "image", "data": image_path})
                     data[str(page + 1)]["content"].append({"type": "image", "data": "..\\assets\\Title Circle.png"})
                     data[str(page + 1)]["content"].append({"type": "image", "data": "..\\assets\\Picolibo.png"})
+
+                if page == 3:
+                    data[str(page + 1)]["content"].append({"type": "image", "data":"..\\assets\\Blue Value Paint Stroke.png"})
                 
                 if 5 <= page <= 28:
                     if page % 2 == 1:
