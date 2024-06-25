@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     create_new_template(num_pages, template_name)
 
-    reformat_prompt = "Hello! I need you to help me reformat the following story lines. Specifically, I need you to help me format it by removing the lines containing the page number, keeping only the lines containing the page text. There should be no empty line between each lines. Remove the line containing the title if it exists. If the last line contains: The End, remove it too. Do not include any characters such as * and _. Do not include any additional response. I only need the story. For example, if the story contains 12 pages, you should only return me 12 lines. Here is the text to format:\n"
+    reformat_prompt = "Hello! I need you to help me reformat the following story lines. Specifically, I need you to help me format it by removing the lines containing the page number, keeping only the lines containing the page text. There should be no empty line between each lines. Remove the line containing the title if it exists. If the last line contains: The End, remove it too. Do not include any special characters except for the character: '. For example, if the text contains the word it's with the special character apostrophe, do not remove or replace it. Do not include any additional response. I only need the story. For example, if the story contains 12 pages, you should only return me 12 lines. Here is the text to format:\n"
 
     questions_prompt = "You are a storybook writer, create me 4 short questions that can be asked to children aged 5 - 6 from this story to encourage good values. Structure in this format: Question <number>. For example, Question 1: What do you think... Just give me the 4 questions and do not include any additional information. Base it on this story:"
 
@@ -72,6 +72,10 @@ if __name__ == "__main__":
         story = stories[i]
         story_dir = os.path.join(path_to_stories, story)
         if os.path.isdir(story_dir):
+            template_name = f"..\\stories\\{story}\\template_{story}.json"
+            create_new_template(num_pages, template_name)
+            with open(f"..\\stories\\{story}\\template_{story}.json") as f:
+                data = json.load(f)
             data_path = os.path.join(story_dir, f"{story}.json")
             if not os.path.isfile(data_path):
                 raise ValueError("Story json data file is missing!")

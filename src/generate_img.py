@@ -123,15 +123,15 @@ def run(dir):
         story_path = os.path.join(dir, story)
         if os.path.isdir(story_path):
             for f in os.listdir(story_path):
-                if f.endswith(".json"):
+                if f.endswith(".json") and "template" not in f:
                     generate_story_images(params, os.path.splitext(f)[0], os.path.join(story_path, f))
 
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-    path_to_downloads = "C:\\Users\\shawn\\Downloads"
-    # path_to_downloads = "C:\\Users\\User\\Downloads"
+    # path_to_downloads = "C:\\Users\\shawn\\Downloads"
+    path_to_downloads = "C:\\Users\\User\\Downloads"
     path_to_stories = "..\\stories"
     cwd = os.getcwd()
 
