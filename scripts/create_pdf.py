@@ -298,7 +298,7 @@ def create_new_pdf(template_pdf_path, path_to_config):
                 if item["type"] == "text":
                     text = item["data"]
                     fontsize = ref_page_obj.get_fontsize()
-                    fontfile = "..\\assets\\Letters for Learners.ttf"
+                    fontfile = "..\\assets\\Sue Ellen Francisco.ttf" if page_num == 0 else "..\\assets\\Letters for Learners.ttf"
                     fontcolor = ref_page_obj.get_text_color()
                     bbox = bbox_list[i]
                     center_x, center_y = ref_page_obj.get_center(bbox)
@@ -331,7 +331,18 @@ def extract_pdf_info(template_pdf_path):
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    
+    pdf_template_path = "..\\templates\\template_1.pdf"
+    path_to_stories = "..\\stories"
+    stories = os.listdir(path_to_stories)
+    story_count = len(stories)
 
-    path_to_template = "..\\templates\\template_1.pdf"
-    path_to_config = "..\\template_1.json"
-    create_new_pdf(path_to_template, path_to_config)
+    for i in range(story_count):
+        story = stories[i]
+        story_dir = os.path.join(path_to_stories, story)
+        if os.path.isdir(story_dir):
+            story_template_path = os.path.join(story_dir, f"template_{story}.json")
+            if not os.path.isfile(story_template_path):
+                raise ValueError("Story template file is missing!")
+            create_new_pdf(pdf_template_path, story_template_path)
+

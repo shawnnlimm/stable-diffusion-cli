@@ -1,8 +1,8 @@
 import os 
 
 # Modify according to path to webui
-WEBUI_MODELS = "C:\\Users\\shawn\\Desktop\\krux\\sd.webui\\webui\\models\\"
-# WEBUI_MODELS = "C:\\Users\\User\\A1111\\stable-diffusion-webui\\models\\"
+# WEBUI_MODELS = "C:\\Users\\shawn\\Desktop\\krux\\sd.webui\\webui\\models\\"
+WEBUI_MODELS = "C:\\Users\\User\\A1111\\stable-diffusion-webui\\models\\"
 
 def valid_extension(filename):
     return filename.endswith(".safetensors") or filename.endswith(".pt")  or filename.endswith(".pth") or filename.endswith(".ckpt")
