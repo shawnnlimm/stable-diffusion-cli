@@ -37,16 +37,24 @@ st_autorefresh(interval=10000, key="image_counter")
 st.subheader("Orator Image Generation Engine")
 st.title("v0.9")
 
-# ---- Generate button ----
-if st.button("Generate"):
-    # path_to_main = "C:\\Users\\User\\Desktop\\stable-diffusion-cli\\main.py"
-    subprocess.call('python main.py', shell=True)
+# ---- Generate images button ----
+if st.button("Generate images"):
+    subprocess.call("python main.py", shell=True)
+
+# ---- Generate PDF button ----
+if st.button("Create PDF"):
+    subprocess.call("python scripts\\create_json.py && python scripts\\create_pdf.py", shell=True)
 
 # ---- Display stories ---- 
 stories = get_images_from_directory(STORIES_DIRECTORY)
 if stories:
     for story, images in stories.items():
         st.header(story)
+        if st.button("View PDF", key=f"view_pdf_{story}"):
+            if len(images) != 12:
+                st.warning("Wait for all images to be generated!")
+            else:
+                subprocess.run(["open", f"pdf\\{story}.pdf"])
         with st.container():
             cols = st.columns(NUM_IMAGES)
             for col, image_path in zip(cols, images):

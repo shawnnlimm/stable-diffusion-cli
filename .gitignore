@@ -9,3 +9,4 @@ templates/*
 !templates/.gitkeep
 pdf/*
 !pdf/.gitkeep
+.DS_Store
